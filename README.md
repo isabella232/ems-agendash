@@ -1,9 +1,9 @@
-# Emarsys NodeETL Agendash
+# Emarsys NodeETL Job Dashboard
 [![Build Status](https://travis-ci.org/agenda/agendash.svg)](https://travis-ci.org/agenda/agendash)
 <a href="https://slackin-ekwifvcwbr.now.sh/"><img src="https://slackin-ekwifvcwbr.now.sh/badge.svg" alt="Slack Status"></a>
 [![Known Vulnerabilities](https://snyk.io/test/github/agenda/agendash/badge.svg?targetFile=package.json)](https://snyk.io/test/github/agenda/agendash?targetFile=package.json)
 
-**EMARSYS FORK OF AGENDASH FOR NODEETL**
+**EMARSYS FORK OF [AGENDASH](https://github.com/agenda/agendash) FOR NODEETL**
 
 A Dashboard for [Agenda](https://github.com/agenda/agenda)
 
