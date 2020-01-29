@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Agendash</title>
+    <title>Emarsys Agendash</title>
 
     <style>
     /*!
@@ -6868,84 +6868,136 @@
   </head>
 
   <body>
-    <div id="app">
-      <div id="sidebar">
-        <div class="sidebar-header">
-          <h1 class="page-title"></h1>
-          <div class="form-group">
-            <label for="overviewFilter">Filter by name</label>
-            <input type="text" class="overview-filter form-control">
+      <!-- ------ MODALS ------ -->
+      <!-- job disable modal -->
+      <!-- TODO: Add job details -->
+      <div id="disable-job-pane" class="modal" tabindex="-1" role="dialog" data-backdrop="static">
+          <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                  <form>
+                      <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                          <h3 class="modal-title">Disable Job: <span class="job-name"></span></h3>
+                      </div>
+
+                      <div class="modal-body">
+                          <div class="form-group">
+                              <p><small>Describe why the job is being disabled, including if it should be disabled permanently or temporarily.</small></p>
+                              <input type="text" class="job-disable-reason form-control" placeholder="Reason for Disabling" aria-describedby="reasonRequiredHelpBlock">
+                              <span id="reasonRequiredHelpBlock" class="help-block hide">Reason for disabling is required.</span>
+                              <input type="hidden" class="job-id form-control" value="" />
+                          </div>
+                      </div>
+                      <div class="modal-footer">
+                          <button type="submit" class="btn btn-default btn-danger" data-action="save">Disable</button>
+                          <button type="button" class="btn btn-default btn-warning" data-action="cancel" data-dismiss="modal">Cancel</button>
+                      </div>
+                  </form>
+              </div>
           </div>
-          <div class="form-group">
-            <label for="overviewFilter">Refresh interval (seconds)</label>
-            <input type="number" value="2" class="refresh-interval form-control">
-          </div>
-        </div>
-        <div id="job-overview-list"></div>
       </div>
-      <div id="main-pane">
-        <div id="list-pane">
-          <div class="page-header">
-            <h2 id="active-title">
-              <span class="active-job"></span>
-              <small class="active-state"></small>
-            </h2>
-            <ul id="select-jobs" class="nav nav-pills">
-              <li role="presentation"><a role="button" data-action="schedule-job">Schedule job</a></li>
-              <li role="presentation"><a role="button" data-action="select-all">Select all</a></li>
-              <li role="presentation"><a role="button" data-action="select-none">Select none</a></li>
-            </ul>
-            <div class="clearfix"></div>
+      <!-- END job disable modal -->
+
+      <!-- ------ END MODALS ------ -->
+
+
+      <div id="app">
+          <div id="main-pane">
+              <div id="list-pane">
+                  <!--<div class="form-group">-->
+                  <!--<label for="overviewFilter">Filter by name</label>-->
+                  <!--<input type="text" class="overview-filter form-control">-->
+                  <!--</div>-->
+                  <div class="page-header">
+
+                      <ul id="select-jobs" class="nav nav-pills pull-right">
+                          <li role="presentation">
+
+                              <div class="form-group has-feedback">
+                                  <input type="text" class="job-list-filter form-control" placeholder="Filter... (I don't work yet!)">
+                                  <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
+                              </div>
+                          </li>
+                          <!--<li role="presentation"><a role="button" data-action="schedule-job">Schedule job</a></li>-->
+                          <!--<li role="presentation"><a role="button" data-action="select-all">Select all</a></li>-->
+                          <!--<li role="presentation"><a role="button" data-action="select-none">Select none</a></li>-->
+                      </ul>
+                      <div id="active-title">
+                          <h1>
+                              <span class="page-title"></span>
+                              <small class="active-state"></small>
+                          </h1>
+                      </div>
+                      <div class="clearfix"></div>
+                  </div>
+                  <div id="job-overview-list"></div>
+                  <div class="table-responsive">
+                      <table class="table">
+                          <thead>
+                          <tr>
+                              <th>Status</th>
+                              <th>Name</th>
+                              <th>Last Run Started</th>
+                              <th>Next Run Starts</th>
+                              <th>Last Finished</th>
+                              <th>Locked</th>
+                          </tr>
+                          </thead>
+                          <tbody id="job-list"></tbody>
+                      </table>
+                  </div>
+              </div>
+              <div id="details-pane">
+                  <h2 class="sub-header"><span class="number-selected">0</span> <small>selected</small></h2>
+                  <button type="button" class="btn btn-danger btn-xs" data-action="run-jobs"
+                          data-toggle="tooltip" data-placement="top" title="Sets Next Run Starts to now. Only works on unlocked jobs to prevent spawning multiple jobs.">
+                      Run All Now
+                  </button>
+                  <!--<button type="button" class="btn btn-danger btn-xs" data-action="requeue-jobs"-->
+                          <!--data-toggle="tooltip" data-placement="top" title="Creates copy of jobs and runs them now, one time only.">-->
+                      <!--Copy and Run All-->
+                  <!--</button>-->
+                  <button type="button" class="btn btn-danger btn-xs" data-action="unlock-jobs"
+                          data-toggle="tooltip" data-placement="top" title="Unlocks jobs. Only works on locked jobs. WARNING: Unlocking a job can cause multiple instances of a job to run at once. Be sure the job is not actually running.">
+                      Unlock All
+                  </button>
+                  <button type="button" class="btn btn-danger btn-xs" data-action="enable-jobs"
+                          data-toggle="tooltip" data-placement="top" title="Enables jobs. Only runs on disabled jobs.">
+                      Enable All
+                  </button>
+                  <button type="button" class="btn btn-danger btn-xs pull-right" data-action="delete-jobs"
+                          data-toggle="tooltip" data-placement="top" title="Deletes jobs from database. IMPORTANT: Will be recreated once server restarts if it's a scheduled job.">
+                      Delete All
+                  </button>
+                  <hr />
+                  <div id="details-list"></div>
+              </div>
+              <div id="create-job-pane">
+                  <h2 class="sub-header">Create Job</h2>
+                  <hr />
+                  <div class="form-group">
+                      <label>Job name</label>
+                      <input type="text" class="job-name form-control">
+                  </div>
+                  <div class="form-group">
+                      <label>Schedule</label>
+                      <input type="text" class="job-schedule form-control">
+                  </div>
+                  <div class="form-group">
+                      <label>Repeat every</label>
+                      <input type="text" class="job-repeat-every form-control">
+                  </div>
+                  <div class="form-group">
+                      <label>Job data (json)</label>
+                      <textarea class="job-data form-control">{}</textarea>
+                  </div>
+                  <div class="form-group">
+                      <span class="btn btn-default btn-success" data-action="save">Save</span>
+                      <span class="btn btn-default btn-warning" data-action="cancel">Cancel</span>
+                  </div>
+              </div>
           </div>
-          <div class="table-responsive">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Status</th>
-                  <th>Name</th>
-                  <th>Last run started</th>
-                  <th>Next run starts</th>
-                  <th>Last finished</th>
-                  <th>Locked</th>
-                </tr>
-              </thead>
-              <tbody id="job-list"></tbody>
-            </table>
-          </div>
-        </div>
-        <div id="details-pane">
-          <h2 class="sub-header"><span class="number-selected">0</span> <small>selected</small></h2>
-          <button type="button" class="btn btn-danger btn-xs" data-action="requeue-jobs">Requeue selected</button>
-          <button type="button" class="btn btn-danger btn-xs pull-right" data-action="delete-jobs">Delete selected</button>
-          <hr />
-          <div id="details-list"></div>
-        </div>
-        <div id="create-job-pane">
-          <h2 class="sub-header">Create Job</h2>
-          <hr />
-          <div class="form-group">
-            <label>Job name</label>
-            <input type="text" class="job-name form-control">
-          </div>
-          <div class="form-group">
-            <label>Schedule</label>
-            <input type="text" class="job-schedule form-control">
-          </div>
-          <div class="form-group">
-            <label>Repeat every</label>
-            <input type="text" class="job-repeat-every form-control">
-          </div>
-          <div class="form-group">
-            <label>Job data (json)</label>
-            <textarea class="job-data form-control">{}</textarea>
-          </div>
-          <div class="form-group">
-            <span class="btn btn-default btn-success" data-action="save">Save</span>
-            <span class="btn btn-default btn-warning" data-action="cancel">Cancel</span>
-          </div>
-        </div>
       </div>
-    </div>
 
     <script type="text/template" id="overview-item-template">
       <ul class="nav nav-sidebar">
