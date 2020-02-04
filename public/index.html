@@ -6868,213 +6868,257 @@
   </head>
 
   <body>
-      <!-- ------ MODALS ------ -->
-      <!-- job disable modal -->
-      <!-- TODO: Add job details -->
-      <div id="disable-job-pane" class="modal" tabindex="-1" role="dialog" data-backdrop="static">
-          <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                  <form>
-                      <div class="modal-header">
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                          <h3 class="modal-title">Disable Job: <span class="job-name"></span></h3>
-                      </div>
+  <!-- ------ MODALS ------ -->
+<!-- job disable modal -->
+<!-- TODO: Add job details -->
+<div id="disable-job-pane" class="modal" tabindex="-1" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h3 class="modal-title">Disable Job: <span class="job-name"></span></h3>
+                </div>
 
-                      <div class="modal-body">
-                          <div class="form-group">
-                              <p><small>Describe why the job is being disabled, including if it should be disabled permanently or temporarily.</small></p>
-                              <input type="text" class="job-disable-reason form-control" placeholder="Reason for Disabling" aria-describedby="reasonRequiredHelpBlock">
-                              <span id="reasonRequiredHelpBlock" class="help-block hide">Reason for disabling is required.</span>
-                              <input type="hidden" class="job-id form-control" value="" />
-                          </div>
-                      </div>
-                      <div class="modal-footer">
-                          <button type="submit" class="btn btn-default btn-danger" data-action="save">Disable</button>
-                          <button type="button" class="btn btn-default btn-warning" data-action="cancel" data-dismiss="modal">Cancel</button>
-                      </div>
-                  </form>
-              </div>
-          </div>
-      </div>
-      <!-- END job disable modal -->
+                <div class="modal-body">
+                    <div class="form-group">
+                        <p><small>Describe why the job is being disabled, including if it should be disabled permanently or temporarily.</small></p>
+                        <input type="text" class="job-disable-reason form-control" placeholder="Reason for Disabling" aria-describedby="reasonRequiredHelpBlock">
+                        <span id="reasonRequiredHelpBlock" class="help-block hide">Reason for disabling is required.</span>
+                        <input type="hidden" class="job-id form-control" value="" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default btn-danger" data-action="save">Disable</button>
+                    <button type="button" class="btn btn-default btn-warning" data-action="cancel" data-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- END job disable modal -->
 
-      <!-- ------ END MODALS ------ -->
+<!-- ------ END MODALS ------ -->
 
 
-      <div id="app">
-          <div id="main-pane">
-              <div id="list-pane">
-                  <!--<div class="form-group">-->
-                  <!--<label for="overviewFilter">Filter by name</label>-->
-                  <!--<input type="text" class="overview-filter form-control">-->
-                  <!--</div>-->
-                  <div class="page-header">
+<div id="app">
+    <div id="main-pane">
+        <div id="list-pane">
+            <!--<div class="form-group">-->
+            <!--<label for="overviewFilter">Filter by name</label>-->
+            <!--<input type="text" class="overview-filter form-control">-->
+            <!--</div>-->
+            <div class="page-header">
 
-                      <ul id="select-jobs" class="nav nav-pills pull-right">
-                          <li role="presentation">
+                <ul id="select-jobs" class="nav nav-pills pull-right">
+                    <li role="presentation">
 
-                              <div class="form-group has-feedback">
-                                  <input type="text" class="job-list-filter form-control" placeholder="Filter... (I don't work yet!)">
-                                  <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
-                              </div>
-                          </li>
-                          <!--<li role="presentation"><a role="button" data-action="schedule-job">Schedule job</a></li>-->
-                          <!--<li role="presentation"><a role="button" data-action="select-all">Select all</a></li>-->
-                          <!--<li role="presentation"><a role="button" data-action="select-none">Select none</a></li>-->
-                      </ul>
-                      <div id="active-title">
-                          <h1>
-                              <span class="page-title"></span>
-                              <small class="active-state"></small>
-                          </h1>
-                      </div>
-                      <div class="clearfix"></div>
-                  </div>
-                  <div id="job-overview-list"></div>
-                  <div class="table-responsive">
-                      <table class="table">
-                          <thead>
-                          <tr>
-                              <th>Status</th>
-                              <th>Name</th>
-                              <th>Last Run Started</th>
-                              <th>Next Run Starts</th>
-                              <th>Last Finished</th>
-                              <th>Locked</th>
-                          </tr>
-                          </thead>
-                          <tbody id="job-list"></tbody>
-                      </table>
-                  </div>
-              </div>
-              <div id="details-pane">
-                  <h2 class="sub-header"><span class="number-selected">0</span> <small>selected</small></h2>
-                  <button type="button" class="btn btn-danger btn-xs" data-action="run-jobs"
-                          data-toggle="tooltip" data-placement="top" title="Sets Next Run Starts to now. Only works on unlocked jobs to prevent spawning multiple jobs.">
-                      Run All Now
-                  </button>
-                  <!--<button type="button" class="btn btn-danger btn-xs" data-action="requeue-jobs"-->
-                          <!--data-toggle="tooltip" data-placement="top" title="Creates copy of jobs and runs them now, one time only.">-->
-                      <!--Copy and Run All-->
-                  <!--</button>-->
-                  <button type="button" class="btn btn-danger btn-xs" data-action="unlock-jobs"
-                          data-toggle="tooltip" data-placement="top" title="Unlocks jobs. Only works on locked jobs. WARNING: Unlocking a job can cause multiple instances of a job to run at once. Be sure the job is not actually running.">
-                      Unlock All
-                  </button>
-                  <button type="button" class="btn btn-danger btn-xs" data-action="enable-jobs"
-                          data-toggle="tooltip" data-placement="top" title="Enables jobs. Only runs on disabled jobs.">
-                      Enable All
-                  </button>
-                  <button type="button" class="btn btn-danger btn-xs pull-right" data-action="delete-jobs"
-                          data-toggle="tooltip" data-placement="top" title="Deletes jobs from database. IMPORTANT: Will be recreated once server restarts if it's a scheduled job.">
-                      Delete All
-                  </button>
-                  <hr />
-                  <div id="details-list"></div>
-              </div>
-              <div id="create-job-pane">
-                  <h2 class="sub-header">Create Job</h2>
-                  <hr />
-                  <div class="form-group">
-                      <label>Job name</label>
-                      <input type="text" class="job-name form-control">
-                  </div>
-                  <div class="form-group">
-                      <label>Schedule</label>
-                      <input type="text" class="job-schedule form-control">
-                  </div>
-                  <div class="form-group">
-                      <label>Repeat every</label>
-                      <input type="text" class="job-repeat-every form-control">
-                  </div>
-                  <div class="form-group">
-                      <label>Job data (json)</label>
-                      <textarea class="job-data form-control">{}</textarea>
-                  </div>
-                  <div class="form-group">
-                      <span class="btn btn-default btn-success" data-action="save">Save</span>
-                      <span class="btn btn-default btn-warning" data-action="cancel">Cancel</span>
-                  </div>
-              </div>
-          </div>
-      </div>
-
-    <script type="text/template" id="overview-item-template">
-      <ul class="nav nav-sidebar">
-        <li data-state="">
-          <a class="text-muted" href="#">
-            <strong><%- displayName %></strong>
-            <span class="label label-default pull-right"><%- total %></span>
-            <div class="progress">
-              <div class="progress-bar progress-bar-info" style="flex-grow: <%- Math.log2(1 + scheduled) %>"></div>
-              <div class="progress-bar progress-bar-primary" style="flex-grow: <%- Math.log2(1 + queued) %>"></div>
-              <div class="progress-bar progress-bar-warning" style="flex-grow: <%- Math.log2(1 + running) %>"></div>
-              <div class="progress-bar progress-bar-success" style="flex-grow: <%- Math.log2(1 + completed) %>"></div>
-              <div class="progress-bar progress-bar-danger" style="flex-grow: <%- Math.log2(1 + failed) %>"></div>
+                        <div class="form-group has-feedback">
+                            <input type="text" class="job-list-filter form-control" placeholder="Filter... (I don't work yet!)">
+                            <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
+                        </div>
+                    </li>
+                    <!--<li role="presentation"><a role="button" data-action="schedule-job">Schedule job</a></li>-->
+                    <!--<li role="presentation"><a role="button" data-action="select-all">Select all</a></li>-->
+                    <!--<li role="presentation"><a role="button" data-action="select-none">Select none</a></li>-->
+                </ul>
+                <div id="active-title">
+                    <h1>
+                        <span class="page-title"></span>
+                        <small class="active-state"></small>
+                    </h1>
+                </div>
+                <div class="clearfix"></div>
             </div>
-          </a>
-        </li>
-        <ul class="nav nav-sidebar">
-          <li data-state="scheduled"><a class="text-info" href="#">Scheduled<span class="label label-info pull-right"><%- scheduled %></span></a></li>
-          <li data-state="queued"><a class="text-primary" href="#">Queued<span class="label label-primary pull-right"><%- queued %></span></a></li>
-          <li data-state="running"><a class="text-warning" href="#">Running<span class="label label-warning pull-right"><%- running %></span></a></li>
-          <li data-state="completed"><a class="text-success" href="#">Completed<span class="label label-success pull-right"><%- completed %></span></a></li>
-          <li data-state="failed"><a class="text-danger" href="#">Failed<span class="label label-danger pull-right"><%- failed %></span></a></li>
-          <li data-state="repeating"><a class="text-info" href="#">Repeating<span class="label label-info pull-right"><%- repeating %></span></a></li>
-        </ul>
-      </ul>
-    </script>
+            <div id="job-overview-list"></div>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Status</th>
+                        <th>Name</th>
+                        <th>Last Run Started</th>
+                        <th>Next Run Starts</th>
+                        <th>Last Finished</th>
+                        <th>Locked</th>
+                    </tr>
+                    </thead>
+                    <tbody id="job-list"></tbody>
+                </table>
+            </div>
+        </div>
+        <div id="details-pane">
+            <h2 class="sub-header"><span class="number-selected">0</span> <small>selected</small></h2>
+            <button type="button" class="btn btn-danger btn-xs" data-action="run-jobs"
+                    data-toggle="tooltip" data-placement="top" title="Sets Next Run Starts to now. Only works on unlocked jobs to prevent spawning multiple jobs.">
+                Run All Now
+            </button>
+            <!--<button type="button" class="btn btn-danger btn-xs" data-action="requeue-jobs"-->
+                    <!--data-toggle="tooltip" data-placement="top" title="Creates copy of jobs and runs them now, one time only.">-->
+                <!--Copy and Run All-->
+            <!--</button>-->
+            <button type="button" class="btn btn-danger btn-xs" data-action="unlock-jobs"
+                    data-toggle="tooltip" data-placement="top" title="Unlocks jobs. Only works on locked jobs. WARNING: Unlocking a job can cause multiple instances of a job to run at once. Be sure the job is not actually running.">
+                Unlock All
+            </button>
+            <button type="button" class="btn btn-danger btn-xs" data-action="enable-jobs"
+                    data-toggle="tooltip" data-placement="top" title="Enables jobs. Only runs on disabled jobs.">
+                Enable All
+            </button>
+            <button type="button" class="btn btn-danger btn-xs pull-right" data-action="delete-jobs"
+                    data-toggle="tooltip" data-placement="top" title="Deletes jobs from database. IMPORTANT: Will be recreated once server restarts if it's a scheduled job.">
+                Delete All
+            </button>
+            <hr />
+            <div id="details-list"></div>
+        </div>
+        <div id="create-job-pane">
+            <h2 class="sub-header">Create Job</h2>
+            <hr />
+            <div class="form-group">
+                <label>Job name</label>
+                <input type="text" class="job-name form-control">
+            </div>
+            <div class="form-group">
+                <label>Schedule</label>
+                <input type="text" class="job-schedule form-control">
+            </div>
+            <div class="form-group">
+                <label>Repeat every</label>
+                <input type="text" class="job-repeat-every form-control">
+            </div>
+            <div class="form-group">
+                <label>Job data (json)</label>
+                <textarea class="job-data form-control">{}</textarea>
+            </div>
+            <div class="form-group">
+                <span class="btn btn-default btn-success" data-action="save">Save</span>
+                <span class="btn btn-default btn-warning" data-action="cancel">Cancel</span>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <script type="text/template" id="job-item-template">
-      <td>
-        <% if (repeating) { %><span class="label label-info"><i class="glyphicon glyphicon-repeat"></i> <%- job.repeatInterval %></span><% } %>
-        <% if (scheduled) { %><span class="label label-info">Scheduled</span><% } %>
-        <% if (queued) { %><span class="label label-primary">Queued</span><% } %>
-        <% if (running) { %><span class="label label-warning">Running</span><% } %>
-        <% if (completed) { %><span class="label label-success">Completed</span><% } %>
-        <% if (failed) { %><span class="label label-danger">Failed</span><% } %>
-      </td>
-      <td>
-        <%- job.name %>
-      </td>
-      <td><% if (job.lastRunAt) { %><time datetime="<%- moment(job.lastRunAt).toISOString() %>"><%- moment(job.lastRunAt).fromNow() %></time><% } %></td>
-      <td><% if (job.nextRunAt) { %><time datetime="<%- moment(job.nextRunAt).toISOString() %>"><%- moment(job.nextRunAt).fromNow() %></time><% } %></td>
-      <td><% if (job.lastFinishedAt) { %><time datetime="<%- moment(job.lastFinishedAt).toISOString() %>"><%- moment(job.lastFinishedAt).fromNow() %></time><% } %></td>
-      <td><% if (job.lockedAt) { %><time datetime="<%- moment(job.lockedAt).toISOString() %>"><%- moment(job.lockedAt).fromNow() %></time><% } %></td>
-    </script>
+<script type="text/template" id="overview-item-template">
+    <ul class="nav nav-tabs">
+        <li data-state="" <% if (!activeTab) { %>class="active"<% }%>><a class="text-muted" href="#"><strong><%- displayName %></strong><span class="label label-info"><%- total %></span></a></li>
+        <!--<li data-state="scheduled" <% if (activeTab == "scheduled") { %>class="active"<% }%>><a class="text-info" href="#">Scheduled<span class="label label-info"><%- scheduled %></span></a></li>-->
+        <!--<li data-state="queued" <% if (activeTab == "queued") { %>class="active"<% }%>><a class="text-primary" href="#">Queued<span class="label label-primary"><%- queued %></span></a></li>-->
+        <li data-state="running" <% if (activeTab == "running") { %>class="active"<% }%>><a class="text-warning" href="#">Running<span class="label label-warning"><%- running %></span></a></li>
+        <!--<li data-state="completed" <% if (activeTab == "completed") { %>class="active"<% }%>><a class="text-success" href="#">Completed<span class="label label-success"><%- completed %></span></a></li>-->
+        <li data-state="failed" <% if (activeTab == "failed") { %>class="active"<% }%>><a class="text-danger" href="#">Failed<span class="label label-danger"><%- failed %></span></a></li>
+        <!--<li data-state="repeating" <% if (activeTab == "repeating") { %>class="active"<% }%>><a class="text-info" href="#">Repeating<span class="label label-info"><%- repeating %></span></a></li>-->
+        <li data-state="disabled" <% if (activeTab == "disabled") { %>class="active"<% }%>><a class="text-info" href="#">Disabled<span class="label label-default"><%- disabled %></span></a></li>
+    </ul>
+</script>
 
-    <script type="text/template" id="job-item-details-template">
-      <div class="panel panel-default">
+<script type="text/template" id="job-item-template">
+    <td>
+        <% if (disabled) { %>
+            <span class="label label-default">DISABLED</span>
+            <p><small>Disabled: <time datetime="<%- moment(job.disableDate).toISOString() %>"><%- moment(job.disableDate).format('YYYY-MM-DD') %></time></small></p>
+        <% }
+        else { %>
+            <% if (repeating) { %><span class="label label-info"><i class="glyphicon glyphicon-repeat"></i> <%- job.repeatInterval %></span><% } %>
+            <% if (scheduled) { %><span class="label label-info">Scheduled</span><% } %>
+            <% if (queued) { %><span class="label label-primary">Queued</span><% } %>
+            <% if (running) { %><span class="label label-warning">Running</span><% } %>
+            <% if (completed) { %><span class="label label-success">Completed</span><% } %>
+            <% if (failed) { %><span class="label label-danger">Failed</span><% } %>
+        <% }%>
+    </td>
+    <td>
+        <%- job.name %> <% if (job.data && job.data.environment) { %> (<%- job.data.environment %>) <% } %>
+        <% if (disabled) { %><p><small>Disable Reason: <%- job.disableReason %></small></p><% }%>
+    </td>
+    <td><% if (job.lastRunAt) { %><time datetime="<%- moment(job.lastRunAt).toISOString() %>"><%- moment(job.lastRunAt).fromNow() %></time><% } %></td>
+    <td>
+        <% if (!disabled && job.nextRunAt) { %><time datetime="<%- moment(job.nextRunAt).toISOString() %>"><%- moment(job.nextRunAt).fromNow() %></time><% } %>
+    </td>
+    <td><% if (job.lastFinishedAt) { %><time datetime="<%- moment(job.lastFinishedAt).toISOString() %>"><%- moment(job.lastFinishedAt).fromNow() %></time><% } %></td>
+    <td><% if (job.lockedAt) { %><time datetime="<%- moment(job.lockedAt).toISOString() %>"><%- moment(job.lockedAt).fromNow() %></time><% } %></td>
+</script>
+
+<script type="text/template" id="job-item-details-template">
+    <div class="panel panel-default">
         <div class="panel-heading">
-          <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h3 class="panel-title"><%- job.name %></h3>
-          <% if (repeating) { %><span class="label label-info"><i class="glyphicon glyphicon-repeat"></i> <%- job.repeatInterval %></span><% } %>
-          <% if (scheduled) { %><span class="label label-info">Scheduled</span><% } %>
-          <% if (queued) { %><span class="label label-primary">Queued</span><% } %>
-          <% if (running) { %><span class="label label-warning">Running</span><% } %>
-          <% if (completed) { %><span class="label label-success">Completed</span><% } %>
-          <% if (failed) { %><span class="label label-danger">Failed</span><% } %>
+            <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h3 class="panel-title"><%- job.name %></h3>
+            <% if (job.data && job.data.environment) { %> <div><%- job.data.environment %></div> <% } %>
+            <% if (disabled) { %>
+                <p><span class="label label-default">DISABLED</span></p>
+                <div class="alert alert-danger">
+                    <small><strong>Date Disabled:</strong> <time datetime="<%- moment(job.disableDate).toISOString() %>"><%- moment(job.disableDate).format('YYYY-MM-DD') %></time><br/>
+                    <strong>Reason:</strong> <%- job.disableReason %></small>
+                </div>
+            <% }
+            else { %>
+                <% if (repeating) { %><span class="label label-info"><i class="glyphicon glyphicon-repeat"></i> <%- job.repeatInterval %></span><% } %>
+                <% if (scheduled) { %><span class="label label-info">Scheduled</span><% } %>
+                <% if (queued) { %><span class="label label-primary">Queued</span><% } %>
+                <% if (running) { %><span class="label label-warning">Running</span><% } %>
+                <% if (completed) { %><span class="label label-success">Completed</span><% } %>
+                <% if (failed) { %><span class="label label-danger">Failed</span><% } %>
+            <% }%>
         </div>
         <div class="panel-body">
-          <% if (job.lastRunAt) { %><p>Last run <time datetime="<%- moment(job.lastRunAt).toISOString() %>"><%- moment(job.lastRunAt).fromNow() %></time></p><% } %>
-          <% if (job.nextRunAt) { %><p>Next run <time datetime="<%- moment(job.nextRunAt).toISOString() %>"><%- moment(job.nextRunAt).fromNow() %></time></p><% } %>
-          <% if (job.lastFinishedAt) { %><p>Last finished <time datetime="<%- moment(job.lastFinishedAt).toISOString() %>"><%- moment(job.lastFinishedAt).fromNow() %></time></p><% } %>
-          <% if (job.lockedAt) { %><p>Locked <time datetime="<%- moment(job.lockedAt).toISOString() %>"><%- moment(job.lockedAt).fromNow() %></time></p><% } %>
-          <% if (job.repeatInterval) { %><p>Repeat each <%- job.repeatInterval %></p><% } %>
+            <% if (job.lastRunAt) { %><p>Last Run: <time datetime="<%- moment(job.lastRunAt).toISOString() %>"><%- moment(job.lastRunAt).fromNow() %></time></p><% } %>
+            <% if (!disabled && job.nextRunAt) { %><p>Next Run: <time datetime="<%- moment(job.nextRunAt).toISOString() %>"><%- moment(job.nextRunAt).fromNow() %></time></p><% } %>
+            <% if (job.lastFinishedAt) { %><p>Last Finished: <time datetime="<%- moment(job.lastFinishedAt).toISOString() %>"><%- moment(job.lastFinishedAt).fromNow() %></time></p><% } %>
+            <% if (job.lockedAt) { %><p>Locked: <time datetime="<%- moment(job.lockedAt).toISOString() %>"><%- moment(job.lockedAt).fromNow() %></time></p><% } %>
+            <% if (job.repeatInterval) { %>
+            <p>
+                <% if (disabled) { %>
+                    Previous Schedule:
+                <% } else {%>
+                    Schedule:
+                <% }%>
+                <%- job.repeatInterval %>
+            </p>
+            <% } %>
 
-          <strong>Job data</strong>
-          <pre><%- JSON.stringify(job.data, null, 2) %></pre>
-          <% if (failed) { %>
-            <strong>Failure reason</strong>
+            <strong>Job Data</strong>
+            <pre><%- JSON.stringify(job.data, null, 2) %></pre>
+            <% if (failed) { %>
+            <strong>Failure Reason</strong>
             <pre><%- JSON.stringify(job.failReason || '', null, 2) %></pre>
-          <% } %>
+            <% } %>
         </div>
         <div class="panel-footer clearfix">
-          <button type="button" class="btn btn-danger btn-sm" data-action="requeue">Requeue</button>
-          <button type="button" class="btn btn-danger btn-sm pull-right" data-action="delete">Delete permanently</button>
+            <% if (!disabled && !job.lockedAt) { %>
+            <button type="button" class="btn btn-danger btn-sm" data-action="run-job"
+                    data-toggle="tooltip" data-placement="top" title="Sets Next Run Starts to now. Only works on unlocked jobs to prevent spawning multiple jobs.">
+                Run Now
+            </button>
+            <% } %>
+            <% if (job.lockedAt) { %>
+            <button type="button" class="btn btn-danger btn-sm" data-action="unlock-job"
+                    data-toggle="tooltip" data-placement="top" title="Unlocks job. Only works on locked jobs. WARNING: Unlocking a job can cause multiple instances of a job to run at once. Be sure the job is not actually running.">
+                Unlock
+            </button>
+            <% } %>
+            <!--<button type="button" class="btn btn-danger btn-sm" data-action="requeue"-->
+                    <!--data-toggle="tooltip" data-placement="top" title="Creates copy of job and runs it now, one time only.">-->
+                <!--Copy and Run-->
+            <!--</button>-->
+            <% if (!disabled) { %>
+            <button type="button" class="btn btn-danger btn-sm" data-action="disable"
+                    data-toggle="tooltip" data-placement="top" title="Disables job until re-enabled.">
+                Disable
+            </button>
+            <% } else { %>
+            <button type="button" class="btn btn-danger btn-sm" data-action="enable"
+                    data-toggle="tooltip" data-placement="top" title="Enables job. Careful, this may run the job right away.">
+                Enable
+            </button>
+            <% } %>
+            <button type="button" class="btn btn-danger btn-sm pull-right" data-action="delete"
+                    data-toggle="tooltip" data-placement="top" title="Deletes job from database. IMPORTANT: Will be recreated once server restarts if it's a scheduled job.">
+                Delete
+            </button>
         </div>
-      </div>
-    </script>
+    </div>
+</script>
 
     <script>
     /*! jQuery v2.2.0 | (c) jQuery Foundation | jquery.org/license */
@@ -12092,6 +12136,13 @@
       }
     })
 </script>
+
+<script type="application/javascript">
+        // Init tooltips
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
 
   </body>
 </html>
